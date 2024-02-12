@@ -1,0 +1,19 @@
+{
+  "name": "laboratorio-2-taller",
+  "version": "1.0.0",
+  "description": "Control de cursos academicos",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Epereira2021576/Laboratorio-2-Taller.git"
+  },
+  "author": "Edson Pereira",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Epereira2021576/Laboratorio-2-Taller/issues"
+  },
+  "homepage": "https://github.com/Epereira2021576/Laboratorio-2-Taller#readme"
+}
