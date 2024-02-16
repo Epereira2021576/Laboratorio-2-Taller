@@ -31,10 +31,10 @@ class Server {
   }
 
   routes() {
-    /*this.app.use(this.usersPath, require('../routes/user'));*/
+    this.app.use(this.usersPath, require('../routes/user.routes'));
   }
 
-  // Method to start the server
+  // Method to start the server effective
   listen() {
     this.app.listen(this.port, () => {
       console.log('Server running on port', this.port);

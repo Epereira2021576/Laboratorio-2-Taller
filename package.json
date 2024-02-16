@@ -4,7 +4,8 @@
   "description": "Control de cursos academicos",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js"
+    "test": "node index.js",
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
     "express": "^4.18.2",
     "express-validator": "^7.0.1",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.1.2"
+    "mongoose": "^8.1.2",
+    "nodemon": "^3.0.3"
   }
 }
