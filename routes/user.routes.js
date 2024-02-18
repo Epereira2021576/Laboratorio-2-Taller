@@ -34,6 +34,8 @@ router.post(
   userPost
 );
 
+router.get('/', userGet);
+
 router.get(
   '/:id',
   [

@@ -16,9 +16,9 @@ const userPost = async (req, res) => {
   });
 };
 
-// MEthod to get a list of the existen users in the DB
+// MEthod to get a list of the existent users in the DB
 const userGet = async (req, res = response) => {
-  const { limit, from = 0 } = req.query;
+  const { limit, from } = req.query;
   const query = { state: true };
 
   const [total, users] = await Promise.all([
