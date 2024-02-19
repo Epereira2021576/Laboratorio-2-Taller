@@ -32,4 +32,6 @@ const courseExistsById = async (id = '') => {
 module.exports = {
   emailExists,
   userExistsById,
+  courseNameExists,
+  courseExistsById,
 };
