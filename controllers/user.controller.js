@@ -65,10 +65,46 @@ const userDelete = async (req, res) => {
   });
 };
 
+const userLogin = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.findOne({ email }).populate('course');
+
+    if (!user) {
+      return res.status(400).json({
+        message: 'Invalid email or password',
+      });
+    }
+
+    const validPassword = bcryptjs.compareSync(password, user.password);
+
+    if (!validPassword) {
+      return res.status(400).json({
+        message: 'Invalid email or password',
+      });
+    }
+
+    const token = jwt.sign({ user: user._id }, process.env.JWT_SECRET, {
+      expiresIn: '1h',
+    });
+
+    res.status(200).json({
+      user,
+      token,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: 'Something went wrong',
+    });
+  }
+};
+
 module.exports = {
   userPost,
   userGet,
   userPut,
   userGetById,
   userDelete,
+  userLogin,
 };
