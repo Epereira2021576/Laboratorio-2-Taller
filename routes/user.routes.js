@@ -3,7 +3,12 @@ const { check } = require('express-validator');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 
-const { emailExists, userExistsById } = require('../helpers/db-validators');
+const {
+  emailExists,
+  userExistsById,
+  courseNameExists,
+  courseExistsById,
+} = require('../helpers/db-validators');
 
 const {
   userPost,
