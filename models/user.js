@@ -29,13 +29,6 @@ const UserSchema = Schema({
     type: Boolean,
     default: true,
   },
-
-  course: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Course',
-    },
-  ],
 });
 
 UserSchema.pre('save', async function (next) {

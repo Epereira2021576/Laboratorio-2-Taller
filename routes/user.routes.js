@@ -14,45 +14,19 @@ const {
   userDelete,
   userLogin,
 } = require('../controllers/user.controller');
-const {
-  verifyStudentRole,
-  studentNotInCourse,
-  studentInCourse,
-  teacherOrSameUser,
-  courseIsTeacher,
-  courseHasThree,
-} = require('../middlewares/middleAuth');
 
 const router = Router();
 
 router.post(
-  '/register',
+  '/login',
   [
-    check('name', 'The name is required').not().isEmpty(),
+    check('email', 'This is not a valid email').isEmail(),
     check(
       'password',
       'The password must be greater than 6 characters'
     ).isLength({
       min: 6,
     }),
-    check('email', 'This is not a valid email').isEmail(),
-    check('email').custom(emailExists),
-    check('role'),
-    check('course', 'The course is required').not().isEmpty(),
-    validarCampos,
-  ],
-  userPost
-);
-
-router.post(
-  '/login',
-  [
-    check('email', 'This is not a valid email').isEmail(),
-    check('password', 'The password must be greater than 6 characters')
-      .isLength({
-        min: 6,
-      })
-      .withMessage('The password must be greater than 6 characters'),
     validarCampos,
   ],
   userLogin
@@ -80,58 +54,41 @@ router.put(
   userPut
 );
 
-router.put(
-  '/:id/course/:courseId',
+router.delete(
+  '/delete/:id',
   [
     check('id', 'Invalid id').isMongoId(),
     check('id').custom(userExistsById),
-    check('courseId', 'Invalid course id').isMongoId(),
-    check('courseId').custom(courseExistsById),
-    teacherOrSameUser,
-    courseHasThree,
-    studentNotInCourse,
     validarCampos,
   ],
-  async (req, res) => {
-    const { id, courseId } = req.params;
-    const { course } = req.body;
-
-    const user = await User.findByIdAndUpdate(
-      id,
-      { course: [...course, courseId] },
-      { new: true }
-    );
-    res.status(200).json({
-      message: 'User course updated successfully',
-      user,
-    });
-  }
+  userDelete
 );
 
-router.delete(
-  '/:id/course/:courseId',
+router.put(
+  '/put/:id',
   [
     check('id', 'Invalid id').isMongoId(),
     check('id').custom(userExistsById),
-    check('courseId', 'Invalid course id').isMongoId(),
-    check('courseId').custom(courseExistsById),
-    teacherOrSameUser,
-    studentInCourse,
     validarCampos,
   ],
-  async (req, res) => {
-    const { id, courseId } = req.params;
+  userPut
+);
 
-    const user = await User.findByIdAndUpdate(
-      id,
-      { $pull: { course: courseId } },
-      { new: true }
-    );
-    res.status(200).json({
-      message: 'User course deleted successfully',
-      user,
-    });
-  }
+router.post(
+  '/',
+  [
+    check('name', 'The name is required').not().isEmpty(),
+    check('email', 'The email is required').isEmail(),
+    check('email').custom(emailExists),
+    check(
+      'password',
+      'The password must be greater than 6 characters'
+    ).isLength({
+      min: 6,
+    }),
+    validarCampos,
+  ],
+  userPost
 );
 
 module.exports = router;

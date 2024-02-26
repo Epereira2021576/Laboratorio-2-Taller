@@ -4,7 +4,7 @@ const User = require('../models/user');
 
 //Method to post users to DB
 const userPost = async (req, res) => {
-  const { name, email, password, role, course } = req.body;
+  const { name, email, password, role } = req.body;
   const user = new User({ name, email, password, role, course });
 
   const salt = bcryptjs.genSaltSync();
@@ -35,7 +35,7 @@ const userGet = async (req, res = response) => {
 //Method to update a user in the DB
 const userPut = async (req, res) => {
   const { id } = req.params;
-  const { _id, name, email, password, role, course, ...rest } = req.body;
+  const { _id, email, password, role, ...rest } = req.body;
 
   await User.findByIdAndUpdate(id, rest);
   const user = await User.findOne({ _id: id });
@@ -85,13 +85,11 @@ const userLogin = async (req, res) => {
       });
     }
 
-    const token = jwt.sign({ user: user._id }, process.env.JWT_SECRET, {
-      expiresIn: '1h',
-    });
-
+    const generatedToken = await generateJWT(user.id);
+    //return json web token and user data
     res.status(200).json({
       user,
-      token,
+      token: `Take note of your token: ${generatedToken}`,
     });
   } catch (error) {
     res.status(500).json({
