@@ -24,4 +24,4 @@ const UserInfoSchema = Schema({
   },
 });
 
-const userInfo = mongoose.model('userInfo', UserInfoSchema);
+const userInfo = mongoose.model('UserInfo', UserInfoSchema);
