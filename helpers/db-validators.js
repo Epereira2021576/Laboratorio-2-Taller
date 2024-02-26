@@ -7,6 +7,13 @@ const emailExists = async (email = '') => {
   }
 };
 
+const emailDoesntExists = async (email = '') => {
+  const emailUser = await User.findOne({ email });
+  if (!emailUser) {
+    throw new Error(`The email ${email} does not exists`);
+  }
+};
+
 const userExistsById = async (id = '') => {
   const user = await User.findOne({ id });
 
@@ -34,4 +41,5 @@ module.exports = {
   userExistsById,
   courseNameExists,
   courseExistsById,
+  emailDoesntExists,
 };

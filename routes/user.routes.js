@@ -12,7 +12,6 @@ const {
   userGet,
   userPut,
   userDelete,
-  userGetById,
   userLogin,
 } = require('../controllers/user.controller');
 const {

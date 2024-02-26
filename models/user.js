@@ -25,6 +25,11 @@ const UserSchema = Schema({
     default: 'STUDENT_ROLE',
   },
 
+  condition: {
+    type: Boolean,
+    default: true,
+  },
+
   course: [
     {
       type: Schema.Types.ObjectId,
@@ -41,6 +46,12 @@ UserSchema.pre('save', async function (next) {
   next();
 });
 
+UserSchema.methods.toJSON = function () {
+  const { __v, password, _id, ...user } = this.toObject();
+  user.uid = _id;
+  return user;
+};
+
 const User = mongoose.model('User', UserSchema);
 
 const courseSchema = Schema({
@@ -49,9 +60,27 @@ const courseSchema = Schema({
     required: [true, 'Course name is required'],
   },
 
+  courseType: {
+    type: String,
+    required: true,
+    enum: [
+      'Bussiness Management',
+      'Social Studies',
+      'Exact Sciences',
+      'Technology',
+      'Independent Study',
+      'No Class Type',
+    ],
+    default: 'No Class Type',
+  },
   courseTeacher: {
     type: String,
     required: [true, 'Course teacher is required'],
+  },
+
+  courseState: {
+    type: Boolean,
+    default: true,
   },
 });
 

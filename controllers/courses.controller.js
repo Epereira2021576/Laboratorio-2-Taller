@@ -3,8 +3,24 @@ const { Course } = require('../models/user');
 
 // Method to post courses to DB
 const coursePost = async (req, res) => {
-  const { courseName, courseTeacher } = req.body;
-  const course = new Course({ courseName, courseTeacher });
+  const { courseName, courseType, courseTeacher } = req.body;
+  const course = new Course({
+    courseName,
+    courseType,
+    courseTeacher,
+  });
+
+  //Verifications in case a teacher doesnt exist or a student tries to create a course
+  const teacher = await User.findOne({ email: courseTeacher });
+  if (!teacher) {
+    return res.status(400).json({
+      msg: 'The teacher does not exist',
+    });
+  } else if (teacher.role === 'STUDENT_ROLE') {
+    return res.status(400).json({
+      msg: 'A student cannot create a course',
+    });
+  }
 
   await course.save();
   res.status(200).json({
